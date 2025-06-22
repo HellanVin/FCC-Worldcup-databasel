@@ -83,12 +83,56 @@ ALTER SEQUENCE public.games_game_id_seq OWNED BY public.games.game_id;
 
 
 --
+-- Name: games_opponent_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.games_opponent_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.games_opponent_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: games_opponent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.games_opponent_id_seq OWNED BY public.games.opponent_id;
+
+
+--
+-- Name: games_winner_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.games_winner_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.games_winner_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: games_winner_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.games_winner_id_seq OWNED BY public.games.winner_id;
+
+
+--
 -- Name: teams; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
 CREATE TABLE public.teams (
     team_id integer NOT NULL,
-    name character varying(255)
+    name character varying NOT NULL
 );
 
 
@@ -121,6 +165,20 @@ ALTER SEQUENCE public.teams_team_id_seq OWNED BY public.teams.team_id;
 --
 
 ALTER TABLE ONLY public.games ALTER COLUMN game_id SET DEFAULT nextval('public.games_game_id_seq'::regclass);
+
+
+--
+-- Name: games winner_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.games ALTER COLUMN winner_id SET DEFAULT nextval('public.games_winner_id_seq'::regclass);
+
+
+--
+-- Name: games opponent_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.games ALTER COLUMN opponent_id SET DEFAULT nextval('public.games_opponent_id_seq'::regclass);
 
 
 --
@@ -206,6 +264,20 @@ SELECT pg_catalog.setval('public.games_game_id_seq', 32, true);
 
 
 --
+-- Name: games_opponent_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.games_opponent_id_seq', 1, false);
+
+
+--
+-- Name: games_winner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.games_winner_id_seq', 1, false);
+
+
+--
 -- Name: teams_team_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
@@ -237,19 +309,19 @@ ALTER TABLE ONLY public.teams
 
 
 --
--- Name: games fk_games_opponent; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: games fk_opponent; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.games
-    ADD CONSTRAINT fk_games_opponent FOREIGN KEY (opponent_id) REFERENCES public.teams(team_id);
+    ADD CONSTRAINT fk_opponent FOREIGN KEY (opponent_id) REFERENCES public.teams(team_id);
 
 
 --
--- Name: games fk_games_winner; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: games fk_winner; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.games
-    ADD CONSTRAINT fk_games_winner FOREIGN KEY (winner_id) REFERENCES public.teams(team_id);
+    ADD CONSTRAINT fk_winner FOREIGN KEY (winner_id) REFERENCES public.teams(team_id);
 
 
 --
